@@ -3,7 +3,7 @@
 
   <ul class="nav navbar-nav navbar-left">
     <li class="navbar-header">
-      <a href="/" class="navbar-brand"><%- theme.logo %></a>
+      <a href="/" style="font-family: 'STXihei', sans-serif; font-size: 1.3em;"><%- theme.logo %></a>
     </li>
   </ul>
   <%- partial('search') %>
@@ -11,18 +11,18 @@
 
   <ul class="nav navbar-nav navbar-right">
 
-    <% if (site.categories && site.categories.length){ %>
+    <% if (site.tags && site.tags.length){ %>
       <li class="dropdown">
         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
           <i class="fa fa-tags fa-lg"></i>
         </a>
         <ul class="dropdown-content">
 
-            <% var categories = [];
-                site.categories.forEach(function(categorie){
-                    categories.push('<li><a href="' + config.root + categorie.path + '">' + categorie.name + '</a></li>');
+            <% var tags = [];
+                site.tags.forEach(function(tag){
+                    tags.push('<li><a href="' + config.root + tag.path + '">' + tag.name + '</a></li>');
             });%>
-             <%- categories.join('') %>
+             <%- tags.join('') %>
 
         </ul>
       </li>
@@ -38,23 +38,16 @@
       <i class="fa fa-archive fa-lg"></i>
     </a></li>
 
-    <li class="github"><a href="https://github.com/chpwang">
-      <i class="fa fa-github-alt fa-lg"></i>
-    </a></li>
+    <li class="github">
+      <a href="https://github.com/chpwang">
+        <i class="fa fa-github-square fa-lg"></i>
+      </a>
+    </li>
 
     <li class="dropdown">
-      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-      <i class="fa fa-link fa-lg"></i>
+      <a href="/about" role="button" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-user fa-lg"></i>
       </a>
-      <ul class="dropdown-content">
-        <% for (var i in theme.more){ %>
-          <li>
-            <a href="<%- theme.more[i] %>">
-              <%= i %>
-            </a>
-          </li>
-        <% } %>
-      </ul>
     </li>
   </ul>
   </div>
