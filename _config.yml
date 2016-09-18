@@ -11,6 +11,9 @@ about:
   title: 
   link: 
 
+search:
+  url: /search
+
 disqus_shortname:
 
 excerpt_num: 120
