@@ -28,7 +28,7 @@ h1, h2, h3, h4, h5, h6 {
 @import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Pacifico);
 
 .index-title, .navbar-brand, .section-year, .archive-title, .pager {
-    font-family: 'Open Sans Condensed', sans-serif;
+    font-family: 'Open Sans Condensed', Helvetica Neue, Helvetica, PingFang SC, Lantinghei SC, Hiragino Sans GB, Microsoft YaHei, \\5FAE\8F6F\96C5\9ED1, STHeitiSC-Light, simsun, WenQuanYi Zen Hei, WenQuanYi Micro Hei, Arial, sans-serif;
 }
 
 body {
@@ -58,11 +58,6 @@ p, .excerpt, .behind, .meta, .post li {
 
 a, a:hover, a:focus {
     color: $theme;
-}
-
-.container {
-    max-width: 850px;
-    padding: 0 5%;
 }
 
 p {
@@ -196,7 +191,7 @@ img {
     color: #CDD2D4;
 }
 
-@media screen and (max-width:782px) {
+@media screen and (max-width:768px) {
     .back, li.archives, .busuanzi {
         display: none;
     }
@@ -219,5 +214,11 @@ img {
     }
     .post ul {
         margin-left: -10px;
+    }
+}
+
+@media (min-width:992px) {
+    .container {
+        max-width: 58%;
     }
 }
