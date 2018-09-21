@@ -1,3 +1,8 @@
+# Fork 主的补充
+本 Fork 已经在原作者建立的 theme 上做了大量的修改，处于对原作者的敬畏，保留了他以下言论
+
+---
+
 # hexo-theme-pln
 A plain theme for hexo  
 同时也是一个纯文字友好的Hexo主题。  
