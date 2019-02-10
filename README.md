@@ -1,5 +1,5 @@
 # Fork 主的补充
-本 Fork 已经由玩家 chpwang 在原作者建立的 theme 上做了大量的修改，处于对原作者 gaoryrt 的敬畏，保留了他以下言论
+本 Fork 已经由玩家 chpwang 在原作者建立的 theme 上做了大量的修改，出于对原作者 gaoryrt 的敬畏，保留了他以下言论
 
 ---
 
