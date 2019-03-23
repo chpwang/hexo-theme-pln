@@ -9,6 +9,7 @@ $background: #fcfcfc;
 $theme: #2570a1;
 $para: #555;
 $lighter: #adadad;
+$myCodeHighBg: #2d2d2d;
 ::selection {
     background: lighten($theme, 40%);
 }
@@ -227,4 +228,9 @@ img {
     .container {
         max-width: 58%;
     }
+}
+
+
+.hljs {
+    background: $myCodeHighBg;
 }
