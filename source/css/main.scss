@@ -231,10 +231,12 @@ img {
 }
 
 
+/* add Highlight.js support - to highlight scheme */
 .hljs {
     background: $myCodeHighBg;
 }
-
+/* make code block to slide left and right properly in after adding Highlight.js support */
 pre code {
     white-space: pre;
+    word-wrap: normal; /* make code block to slide - this line is specific for safari */
 }
