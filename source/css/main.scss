@@ -83,6 +83,10 @@ ul>li {
     list-style-type: disc;
 }
 
+ul.dropdown-content.open>li {
+    list-style-type: none;
+}
+
 li {
     list-style: none;
 }
