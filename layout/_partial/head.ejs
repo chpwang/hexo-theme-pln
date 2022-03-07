@@ -33,8 +33,12 @@
   <% } %>
   <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
   <link rel="alternate" href="<% if (theme.rss){ %><%- theme.rss %><% } else { %><%- config.root %>atom.xml<% } %>" title="<%= config.title %>" type="application/atom+xml">
-  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" -->
+  <!-- link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" -->
+  <!-- 把 bootstrap 3.3.6 本地化，免得连不上它的服务器，相关文件放在了 pln/source/bootstrap 里-->
+  <link rel="stylesheet" href="/css/bootstrap/css/bootstrap.min.css">
+  <!-- 把 font-awesome 4.5.0 本地化，免得连不上它的服务器，相关文件放在了 pln/source/font-awesome 里 -->
+  <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
   <!-- highlight.js代码高亮主题 css 引入-->
   <link rel="stylesheet" href="/css/highlight/styles/vs2015.css">
   <!-- highlight.js代码高亮主题 css 引入-->
