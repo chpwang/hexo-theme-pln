@@ -1,25 +1,26 @@
-@import "navigator";
-@import "search";
-@import "posts";
-@import "pager";
-@import "footer";
-@import "highlight";
-@import "animation";
+@use "sass:color";
+
+@use "navigator";
+@use "search";
+@use "posts";
+@use "pager";
+@use "footer";
+@use "highlight";
+@use "animation";
 $background: #fcfcfc;
 $theme: #2570a1;
 $para: #555;
 $lighter: #adadad;
-$myCodeHighBg: #2d2d2d;
 ::selection {
-    background: lighten($theme, 40%);
+    background: color.adjust($theme, $lightness: 40%);
 }
 
 ::-moz-selection {
-    background: lighten($theme, 40%);
+    background: color.adjust($theme, $lightness: 40%);
 }
 
 ::-webkit-selection {
-    background: lighten($theme, 40%);
+    background: color.adjust($theme, $lightness: 40%);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -74,7 +75,7 @@ p {
     font-size: 18px;
     line-height: 2em;
     letter-spacing: .5px;
-    color: lighten($para, 10%);
+    color: color.adjust($para, $lightness: 10%);
 }
 
 ol>li {
@@ -114,7 +115,7 @@ li {
     color: $lighter;
     padding-top: 13px;
     a {
-        color: lighten($theme, 10%);
+        color: color.adjust($theme, $lightness: 10%);
     }
 }
 
@@ -143,7 +144,7 @@ li {
     width: 40%;
     margin-right: 20px;
     text-align: right;
-    color: lighten($lighter, 10%);
+    color: color.adjust($lighter, $lightness: 10%);
 }
 
 .archive-detail {
@@ -151,7 +152,7 @@ li {
     width: 90%;
     padding: 0 20px;
     word-wrap: break-word;
-    border-left: 1px solid lighten($lighter, 10%);
+    border-left: 1px solid color.adjust($lighter, $lightness: 10%);
 }
 
 article {
@@ -281,15 +282,4 @@ img {
     .container {
         max-width: 58%;
     }
-}
-
-
-/* add Highlight.js support - to highlight scheme */
-.hljs {
-    background: $myCodeHighBg;
-}
-/* make code block to slide left and right properly in after adding Highlight.js support */
-pre code {
-    white-space: pre;
-    word-wrap: normal; /* make code block to slide - this line is specific for safari */
 }
