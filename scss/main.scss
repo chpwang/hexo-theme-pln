@@ -2,6 +2,7 @@
 @use "search";
 @use "posts";
 @use "article";
+@use "toc";
 @use "pager";
 @use "footer";
 @use "highlight";
@@ -12,6 +13,13 @@
 
 :root {
     color-scheme: light;
+
+    // Reading layout. Desktop/tablet gutters are intentionally generous;
+    // phones switch back to the compact 7vw article padding below.
+    --page-gutter: clamp(120px, 17.5vw, 280px);
+    --toc-drawer-width: 236px;
+    --toc-drawer-shift: 118px; // Half of drawer width; keeps open gutters symmetric.
+    --toc-drawer-gap: 18px;
 
     --background: #f8f7f3;
     --surface: #fbfaf7;
@@ -313,8 +321,57 @@ li {
     }
 }
 
-@media (min-width: 992px) {
+// Unified page gutters.
+//
+// Desktop/tablet pages use the same generous outer gutter across posts,
+// homepage, archives, tags and other main-content pages. On very wide screens
+// this is roughly 2.5x the previous article gutter; at medium widths it scales
+// down with the viewport so the content column does not become impractically
+// narrow. Phones keep PLN's compact 7vw padding.
+@media screen and (min-width: 769px) {
+    .container:not(.right-foot) {
+        width: auto;
+        max-width: none;
+        margin-right: var(--page-gutter);
+        margin-left: var(--page-gutter);
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .container:has(> article.post) {
+        position: relative;
+        left: 0;
+        transition: left 180ms ease;
+    }
+
+    // Opening the TOC must not change article width.
+    //
+    // Closed:
+    //   gutter | article | gutter
+    //
+    // Open:
+    //   drawer | smaller gutter | article | smaller gutter
+    //
+    // Moving the unchanged article column by half the drawer width consumes
+    // the same amount from both original gutters. The article itself never
+    // narrows, and the remaining whitespace stays symmetric.
+    body.toc-open .container:has(> article.post) {
+        left: var(--toc-drawer-shift);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --page-gutter: 7vw;
+    }
+
     .container {
-        max-width: 58%;
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .container:has(> article.post) {
+        transition: none;
     }
 }

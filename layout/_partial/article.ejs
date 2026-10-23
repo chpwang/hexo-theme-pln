@@ -17,9 +17,8 @@
   </div>
 </li>
 </div>
-<hr>
+<hr class="index-separator">
 <% } else { %>
-
   <article class="standard <%= item.layout %>">
     <div class="title">
       <%- partial('post/title') %>
@@ -33,8 +32,48 @@
         <%- partial('post/gallery', {item: item}) %>
       <% } %>
     </div>
+
+    <% if (item.layout === 'post') { %>
+      <%
+        const tocContent = toc(item.content, {
+          list_number: false,
+          min_depth: 2,
+          max_depth: 4
+        });
+      %>
+      <% if (tocContent && tocContent.trim()) { %>
+        <button
+          class="post-toc-toggle"
+          type="button"
+          aria-controls="post-toc-drawer"
+          aria-expanded="false"
+          aria-label="打开文章目录"
+          title="目录">
+        </button>
+
+        <div class="post-toc-backdrop" data-toc-close aria-hidden="true"></div>
+
+        <aside
+          id="post-toc-drawer"
+          class="post-toc post-toc-drawer"
+          aria-label="文章目录"
+          aria-hidden="true">
+          <div class="post-toc-drawer-header">
+            <div class="post-toc-title">目录</div>
+            <button class="post-toc-close" type="button" data-toc-close aria-label="关闭文章目录">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="post-toc-drawer-content">
+            <%- tocContent %>
+          </div>
+        </aside>
+
+        <script src="<%- url_for('/js/toc.js') %>" defer></script>
+      <% } %>
+    <% } %>
+
     <%- item.content %>
 
   </article>
 <% } %>
-

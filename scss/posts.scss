@@ -22,6 +22,14 @@
 }
 
 @media screen and (max-width: 782px) {
+    // The homepage separator is emitted by article.ejs outside .post-item.
+    // Give it the same horizontal inset as mobile article/archive content.
+    .index-separator {
+        width: calc(100% - 14%);
+        margin-right: 7%;
+        margin-left: 7%;
+    }
+
     .index-title {
         width: 80%;
     }

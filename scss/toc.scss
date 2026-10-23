@@ -1,0 +1,293 @@
+// Article table of contents.
+//
+// One interaction model at every width: a left-side drawer.
+//
+// Tablet / desktop:
+// - the trigger is a subtle page-tab in the left article gutter;
+// - opening the drawer pushes the article to the right, so text stays readable;
+// - clicking a TOC link keeps the drawer open.
+//
+// Phone:
+// - the same compact trigger fits inside the 7vw left gutter;
+// - the drawer overlays the page with a backdrop;
+// - selecting a TOC link closes the drawer so the article can be read.
+
+html {
+    scroll-behavior: smooth;
+}
+
+.post-toc {
+    color: var(--text-secondary);
+    font-size: 14px;
+
+    .toc,
+    .toc-child {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .toc-child {
+        padding-left: 14px;
+    }
+
+    .toc-item {
+        margin: 0;
+        padding: 0;
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.55;
+        letter-spacing: 0;
+        list-style: none;
+    }
+
+    .toc-link {
+        display: block;
+        width: max-content;
+        min-width: 100%;
+        padding: 4px 0;
+        color: var(--text-secondary);
+        white-space: nowrap;
+        text-decoration: none;
+        transition: color 120ms ease;
+
+        &:hover,
+        &:focus {
+            color: var(--theme);
+            text-decoration: none;
+        }
+    }
+}
+
+.post-toc-title {
+    color: var(--text-heading);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+// Low-distraction edge rail.
+//
+// The whole left screen edge is the target, but the rail itself is only 11px
+// wide and uses the page background. It reads as part of the page frame rather
+// than as a floating control. A short hairline in the middle is the only
+// persistent affordance; hover/focus makes it slightly more explicit.
+.post-toc-toggle {
+    position: fixed;
+    z-index: 1110;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 11px;
+    height: 100vh;
+    padding: 0;
+    border: 0;
+    border-right: 1px solid transparent;
+    border-radius: 0;
+    background: var(--background);
+    box-shadow: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    opacity: 1;
+    transition:
+        width 120ms ease,
+        background-color 120ms ease,
+        border-color 120ms ease;
+
+    // The visible cue is deliberately quieter than an icon or button.
+    &::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 1px;
+        height: 44px;
+        border-radius: 999px;
+        background: var(--border);
+        content: "";
+        opacity: 0.72;
+        transform: translate(-50%, -50%);
+        transition:
+            width 120ms ease,
+            height 120ms ease,
+            background-color 120ms ease,
+            opacity 120ms ease;
+    }
+
+    &:hover,
+    &:focus-visible {
+        width: 14px;
+        border-right-color: var(--border);
+        background: var(--surface-muted);
+        outline: none;
+
+        &::after {
+            width: 2px;
+            height: 52px;
+            background: var(--theme);
+            opacity: 0.62;
+        }
+    }
+}
+
+.post-toc-backdrop {
+    display: none;
+}
+
+// Stable narrow drawer. Long titles never resize it; horizontal scrolling
+// reveals headings that exceed the fixed width.
+.post-toc-drawer {
+    position: fixed;
+    z-index: 1100;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: var(--toc-drawer-width);
+    padding: 0;
+    overflow: hidden;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+    box-shadow: 6px 0 18px rgb(0 0 0 / 12%);
+    transform: translateX(-102%);
+    transition: transform 180ms ease;
+}
+
+.post-toc-drawer-header {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 14px 12px;
+    border-bottom: 1px solid var(--border);
+
+    .post-toc-title {
+        margin: 0;
+    }
+}
+
+.post-toc-close {
+    // Desktop/tablet use the same edge rail for both opening and closing.
+    display: none;
+}
+
+.post-toc-drawer-content {
+    flex: 1 1 auto;
+    padding: 14px 14px 24px;
+    overflow-x: auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
+    > .toc {
+        width: max-content;
+        min-width: 100%;
+    }
+}
+
+body.toc-open {
+    .post-toc-drawer {
+        transform: translateX(0);
+    }
+
+    // The exact same rail becomes the close control. Moving it to the
+    // drawer's right edge makes the interaction reversible in place:
+    // left edge opens, drawer edge closes.
+    .post-toc-toggle {
+        left: var(--toc-drawer-width);
+        border-right-color: var(--border);
+        background: var(--background);
+    }
+}
+
+// Phone mode: the gutter is intentionally small, so the drawer must overlay
+// the article. The trigger also shrinks to fit completely inside that gutter.
+@media screen and (max-width: 768px) {
+    .post-toc-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--text-secondary);
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            background: var(--surface-muted);
+            color: var(--theme);
+            outline: none;
+        }
+    }
+
+    .post-toc-toggle {
+        width: 9px;
+
+        &::after {
+            height: 36px;
+            opacity: 0.62;
+        }
+
+        &:hover,
+        &:focus-visible {
+            width: 11px;
+
+            &::after {
+                height: 42px;
+            }
+        }
+    }
+
+    .post-toc-backdrop {
+        position: fixed;
+        z-index: 1095;
+        inset: 0;
+        display: block;
+        visibility: hidden;
+        background: rgb(0 0 0 / 38%);
+        opacity: 0;
+        transition:
+            visibility 180ms ease,
+            opacity 180ms ease;
+    }
+
+    .post-toc-drawer {
+        width: min(var(--toc-drawer-width), calc(100vw - 40px));
+        box-shadow: 8px 0 24px rgb(0 0 0 / 18%);
+    }
+
+    body.toc-open {
+        overflow: hidden;
+
+        .post-toc-backdrop {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        // On phones the drawer overlays the article, so keep the conventional
+        // X + backdrop interaction and remove the rail from the foreground.
+        .post-toc-toggle {
+            visibility: hidden;
+            opacity: 0;
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .post-toc-toggle,
+    .post-toc-backdrop,
+    .post-toc-drawer {
+        transition: none;
+    }
+}

@@ -1,42 +1,94 @@
-@mixin tran($dg: 270deg) {
-    -webkit-transform: rotate($dg);
-    -moz-transform: rotate($dg);
-    -o-transform: rotate($dg);
-}
+// Back-to-top control.
+//
+// The existing markup uses .right-foot.container and a right-arrow icon.
+// Position it independently of Bootstrap's container geometry so it stays
+// centered in the article's right gutter at every viewport width.
 
 .right-foot {
-    font-family: 'Pacifico', Helvetica Neue, Helvetica, PingFang SC, Lantinghei SC, Hiragino Sans GB, Microsoft YaHei, \\5FAE\8F6F\96C5\9ED1, STHeitiSC-Light, simsun, WenQuanYi Zen Hei, WenQuanYi Micro Hei, Arial, sans-serif;
     position: fixed;
-    z-index: 0;
-    bottom: 560px;
-    left: 53%;
-    @include tran;
-    writing-mode: lr-tb;
-}
+    z-index: 40;
+    right: calc((var(--page-gutter) - 28px) / 2);
+    bottom: 8vh;
+    width: 28px !important;
+    max-width: none !important;
+    height: 34px;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: 'Pacifico', Helvetica Neue, Helvetica, PingFang SC, Lantinghei SC, Hiragino Sans GB, Microsoft YaHei, \\5FAE\8F6F\96C5\9ED1, STHeitiSC-Light, simsun, WenQuanYi Zen Hei, WenQuanYi Micro Hei, Arial, sans-serif;
+    font-size: 20px !important;
+    line-height: 34px;
+    text-align: center;
+    transition: right 180ms ease;
 
-.firstrow,
-.secondrow {
-    display: inline-block;
-    line-height: 1;
-    vertical-align: top;
-}
-
-@media screen and (max-width:782px) {
-    .right-foot {
-        font-size: 26px !important;
-        line-height: 35px;
-        position: relative;
-        bottom: 0;
-        left: 0;
-        margin-bottom: 30px;
-        @include tran(0);
-        text-align: center;
-    }
-    i.fa-arrow-right {
-        @include tran;
-    }
-    .firstrow,
-    .secondrow {
+    .firstrow {
         display: block;
+        width: 100%;
+        height: 100%;
+        line-height: inherit;
+    }
+
+    .firstrow a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        color: var(--text-muted);
+        opacity: 0.6;
+        transition:
+            color 120ms ease,
+            opacity 120ms ease;
+
+        &:hover,
+        &:focus {
+            color: var(--theme);
+            opacity: 1;
+            text-decoration: none;
+            outline: none;
+        }
+    }
+
+    i.fa-arrow-right {
+        transform: rotate(-90deg);
+    }
+
+    // This row is currently empty in PLN and must not affect positioning.
+    .secondrow {
+        display: none;
+    }
+}
+
+// When the desktop/tablet TOC opens, the article moves right by
+// --toc-drawer-shift without changing width. Re-center the arrow inside the
+// *remaining* right gutter so it follows the article but never sits on top of
+// the text.
+@media screen and (min-width: 769px) {
+    body.toc-open .right-foot {
+        right: max(
+            2px,
+            calc(
+                (
+                    var(--page-gutter) -
+                    var(--toc-drawer-shift) -
+                    28px
+                ) / 2
+            )
+        );
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .right-foot {
+        right: max(2px, calc((7vw - 20px) / 2));
+        bottom: 6vh;
+        width: 20px !important;
+        height: 28px;
+        font-size: 16px !important;
+        line-height: 28px;
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .right-foot {
+        transition: none;
     }
 }
