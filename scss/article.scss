@@ -5,9 +5,45 @@
 // preserving PLN's existing cascade order while keeping article presentation
 // concerns out of the global stylesheet.
 
-@mixin styles {
+@mixin styles($text-color) {
     article {
         padding: 40px 0;
+    }
+
+
+    // MathJax SVG output generated server-side by hexo-math.
+    // PLN owns these layout rules so display math remains centered even when
+    // hexo-math's standalone stylesheet is not injected into the page.
+    mjx-container[jax="SVG"] {
+        direction: ltr;
+    }
+
+    mjx-container[jax="SVG"] > svg {
+        overflow: visible;
+    }
+
+    mjx-container[jax="SVG"][display="true"] {
+        display: block;
+        margin: 1em 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        text-align: center;
+    }
+
+    mjx-container[jax="SVG"][justify="left"] {
+        text-align: left;
+    }
+
+    mjx-container[jax="SVG"][justify="right"] {
+        text-align: right;
+    }
+
+    // If an inline math tag starts a Markdown line inside a list item,
+    // Marked leaves the rendered <mjx-container> and adjacent text directly
+    // under <li> instead of wrapping them in <p>. Match the normal paragraph
+    // color in that specific case.
+    article.post li:has(> mjx-container.MathJax:not([display="true"])) {
+        color: $text-color;
     }
 
     blockquote {
