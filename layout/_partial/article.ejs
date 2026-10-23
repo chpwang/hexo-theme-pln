@@ -73,7 +73,16 @@
       <% } %>
     <% } %>
 
-    <%- item.content %>
+    <%
+      // Keep <table> in its native table layout and give scrolling to a real
+      // wrapper. Code examples are already HTML-escaped by the Markdown
+      // renderer, so this only targets actual rendered tables in the article.
+      const contentWithTableWrappers = item.content.replace(
+        /<table\b([^>]*)>([\s\S]*?)<\/table>/gi,
+        '<div class="table-wrapper"><table$1>$2</table></div>'
+      );
+    %>
+    <%- contentWithTableWrappers %>
 
   </article>
 <% } %>
