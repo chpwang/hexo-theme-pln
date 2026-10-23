@@ -1,13 +1,10 @@
-@use "sass:color";
-
 // Presentation rules for article content and embedded media.
 //
-// This module intentionally exposes a mixin instead of emitting CSS at module
-// load time. main.scss includes it at the original position of these rules,
-// preserving PLN's existing cascade order while keeping article presentation
-// concerns out of the global stylesheet.
+// This module intentionally exposes mixins instead of emitting CSS at module
+// load time. main.scss includes them where PLN historically emitted article
+// rules, preserving cascade order while keeping article concerns isolated.
 
-@mixin typography($text-color) {
+@mixin typography {
     p,
     .post li {
         font-weight: 300;
@@ -15,14 +12,14 @@
 
     p {
         padding: 10px 0;
-        color: $text-color;
+        color: var(--text-body);
         font-size: 18px;
         line-height: 2;
         letter-spacing: 0.6px;
     }
 
     .post li {
-        color: color.adjust($text-color, $lightness: 10%);
+        color: var(--text-secondary);
         font-size: 18px;
         line-height: 2;
         letter-spacing: 0.5px;
@@ -49,16 +46,11 @@
     }
 }
 
-@mixin styles($text-color) {
-    // Article presentation rules are scoped to <article> so quote/table/media
-    // styling cannot leak into navigation, archives, footers, or future theme
-    // components. This still preserves the same styling for posts and pages.
+@mixin styles {
     article {
         padding: 40px 0;
 
         // MathJax SVG output generated server-side by hexo-math.
-        // PLN owns these layout rules so display math remains centered even
-        // when hexo-math's standalone stylesheet is not injected.
         mjx-container[jax="SVG"] {
             direction: ltr;
         }
@@ -83,11 +75,10 @@
             text-align: right;
         }
 
-        // If an inline math tag starts a Markdown line inside a list item,
-        // Marked leaves the rendered <mjx-container> and adjacent text
-        // directly under <li> instead of wrapping them in <p>.
+        // When inline math starts a Markdown line inside a list item, Marked
+        // may leave adjacent text directly under <li> rather than inside <p>.
         &.post li:has(> mjx-container.MathJax:not([display="true"])) {
-            color: $text-color;
+            color: var(--text-body);
         }
 
         blockquote {
@@ -100,7 +91,7 @@
             font-weight: 100;
 
             p {
-                color: #6e4832;
+                color: var(--blockquote-text);
                 font-size: 0.9em;
                 line-height: 1.7;
             }
@@ -114,7 +105,7 @@
                 position: absolute;
                 width: 4rem;
                 height: 4rem;
-                color: #f1efe6;
+                color: var(--blockquote-mark);
                 font-size: 8rem;
             }
 
@@ -156,7 +147,7 @@
             margin-top: 20px;
             margin-bottom: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px #555;
+            box-shadow: 0 0 10px var(--image-shadow);
             transform: translateX(-50%);
         }
 

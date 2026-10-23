@@ -24,25 +24,28 @@
   <% } else if (page.excerpt){ %> <meta name="description" content="<%= strip_html(page.excerpt).replace(/^\s*/, '').replace(/\s*$/, '') %>">
   <% } else if (page.content){ %> <meta name="description" content="<%= strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150) %>">
   <% } %>
-<% if (page.keywords){ %><meta name="keywords" content="<%= page.keywords %>"><% } %>
+  <% if (page.keywords){ %><meta name="keywords" content="<%= page.keywords %>"><% } %>
   <% if (page.title){ %><meta property="og:title" content="<%= page.title %>"/><% } %>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:site_name" content="<%= config.title %>"/>
-<% if(page.cover) { %> <meta property="og:image" content="<%= page.cover %>" />
+  <% if(page.cover) { %> <meta property="og:image" content="<%= page.cover %>" />
   <% } else { %> <meta property="og:image" content="<%= config.cover %>"/>
   <% } %>
   <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
   <link rel="alternate" href="<% if (theme.rss){ %><%- theme.rss %><% } else { %><%- config.root %>atom.xml<% } %>" title="<%= config.title %>" type="application/atom+xml">
-  <!-- link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" -->
-  <!-- link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" -->
-  <!-- 把 bootstrap 3.3.6 本地化，免得连不上它的服务器，相关文件放在了 pln/source/bootstrap 里-->
+
+  <!-- Apply saved/system color theme before CSS to avoid a light-mode flash. -->
+  <script src="<%- config.root %>js/theme-mode.js"></script>
+
+  <!-- Bootstrap 3 and Font Awesome 4.5 are kept local for reliable loading. -->
   <link rel="stylesheet" href="/css/bootstrap/css/bootstrap.min.css">
-  <!-- 把 font-awesome 4.5.0 本地化，免得连不上它的服务器，相关文件放在了 pln/source/font-awesome 里 -->
   <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
-  <!-- highlight.js代码高亮主题 css 引入-->
+
+  <!-- Server-side Highlight.js token colors. -->
   <link rel="stylesheet" href="/css/highlight/styles/vs2015.css">
-  <!-- highlight.js代码高亮主题 css 引入-->
+
+  <!-- PLN theme CSS. -->
   <link rel="stylesheet" href="/css/m.min.css">
-  <!--link rel="icon" type="image/x-icon" href="<%- config.root %>favicon.ico"-->
+
   <link rel="icon" type="image/x-icon" href="<%- config.root %>G.png">
 </head>
