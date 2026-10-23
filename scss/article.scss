@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Presentation rules for article content and embedded media.
 //
 // This module intentionally exposes a mixin instead of emitting CSS at module
@@ -5,130 +7,162 @@
 // preserving PLN's existing cascade order while keeping article presentation
 // concerns out of the global stylesheet.
 
+@mixin typography($text-color) {
+    p,
+    .post li {
+        font-weight: 300;
+    }
+
+    p {
+        padding: 10px 0;
+        color: $text-color;
+        font-size: 18px;
+        line-height: 2;
+        letter-spacing: 0.6px;
+    }
+
+    .post li {
+        color: color.adjust($text-color, $lightness: 10%);
+        font-size: 18px;
+        line-height: 2;
+        letter-spacing: 0.5px;
+    }
+
+    ol > li {
+        list-style-type: decimal;
+    }
+
+    ul > li {
+        list-style-type: disc;
+    }
+}
+
+@mixin mobile-typography {
+    p,
+    .post li {
+        font-size: 16px;
+        line-height: 1.9;
+    }
+
+    .post ul {
+        margin-left: -10px;
+    }
+}
+
 @mixin styles($text-color) {
+    // Article presentation rules are scoped to <article> so quote/table/media
+    // styling cannot leak into navigation, archives, footers, or future theme
+    // components. This still preserves the same styling for posts and pages.
     article {
         padding: 40px 0;
-    }
 
-
-    // MathJax SVG output generated server-side by hexo-math.
-    // PLN owns these layout rules so display math remains centered even when
-    // hexo-math's standalone stylesheet is not injected into the page.
-    mjx-container[jax="SVG"] {
-        direction: ltr;
-    }
-
-    mjx-container[jax="SVG"] > svg {
-        overflow: visible;
-    }
-
-    mjx-container[jax="SVG"][display="true"] {
-        display: block;
-        margin: 1em 0;
-        overflow-x: auto;
-        overflow-y: hidden;
-        text-align: center;
-    }
-
-    mjx-container[jax="SVG"][justify="left"] {
-        text-align: left;
-    }
-
-    mjx-container[jax="SVG"][justify="right"] {
-        text-align: right;
-    }
-
-    // If an inline math tag starts a Markdown line inside a list item,
-    // Marked leaves the rendered <mjx-container> and adjacent text directly
-    // under <li> instead of wrapping them in <p>. Match the normal paragraph
-    // color in that specific case.
-    article.post li:has(> mjx-container.MathJax:not([display="true"])) {
-        color: $text-color;
-    }
-
-    blockquote {
-        margin: 30px auto;
-        font-family: "PingFang SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-        font-weight: 100;
-        font-size: 2rem;
-        max-width: 720px;
-        position: relative;
-        border: 0;
-
-        p {
-            color: #6e4832;
-            line-height: 1.7;
-            font-size: 0.9em;
+        // MathJax SVG output generated server-side by hexo-math.
+        // PLN owns these layout rules so display math remains centered even
+        // when hexo-math's standalone stylesheet is not injected.
+        mjx-container[jax="SVG"] {
+            direction: ltr;
         }
 
-        strong {
-            font-style: italic;
+        mjx-container[jax="SVG"] > svg {
+            overflow: visible;
         }
-    }
 
-    blockquote:before,
-    blockquote:after {
-        position: absolute;
-        color: #f1efe6;
-        font-size: 8rem;
-        width: 4rem;
-        height: 4rem;
-    }
+        mjx-container[jax="SVG"][display="true"] {
+            display: block;
+            margin: 1em 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+            text-align: center;
+        }
 
-    blockquote:before {
-        font-family: 'Special Elite', cursive;
-        content: '“';
-        left: -3rem;
-        top: -2rem;
-    }
+        mjx-container[jax="SVG"][justify="left"] {
+            text-align: left;
+        }
 
-    blockquote:after {
-        font-family: 'Special Elite', cursive;
-        content: '”';
-        right: -3rem;
-        bottom: 1rem;
-    }
+        mjx-container[jax="SVG"][justify="right"] {
+            text-align: right;
+        }
 
+        // If an inline math tag starts a Markdown line inside a list item,
+        // Marked leaves the rendered <mjx-container> and adjacent text
+        // directly under <li> instead of wrapping them in <p>.
+        &.post li:has(> mjx-container.MathJax:not([display="true"])) {
+            color: $text-color;
+        }
 
+        blockquote {
+            position: relative;
+            max-width: 720px;
+            margin: 30px auto;
+            border: 0;
+            font-family: "PingFang SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+            font-size: 2rem;
+            font-weight: 100;
 
-    table {
-        width: 100%;
-    }
+            p {
+                color: #6e4832;
+                font-size: 0.9em;
+                line-height: 1.7;
+            }
 
-    img, object, video, iframe {
-        max-width: 110%;
-    }
+            strong {
+                font-style: italic;
+            }
 
-    iframe {
-        min-width: 100%;
-    }
+            &::before,
+            &::after {
+                position: absolute;
+                width: 4rem;
+                height: 4rem;
+                color: #f1efe6;
+                font-size: 8rem;
+            }
 
-    img {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        display: block;
-        height: auto;
-        position: relative;
-        left: 50%;
-        border-radius: 10px;
-        box-shadow: 0 0 10px #555;
-        -webkit-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
-        transform: translateX(-50%);
-        -webkit-box-shadow: 0 0 10px #555;
-    }
+            &::before {
+                top: -2rem;
+                left: -3rem;
+                content: "“";
+                font-family: "Special Elite", cursive;
+            }
 
-    #donate_QR_Code {
-        margin-top: 30px;
-        display: block;
-        height: auto;
-        position: relative;
-        left: 50%;
-        border-radius: 10px;
-        box-shadow: 0 0 0px #fff;
-        -webkit-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
-        transform: translateX(-50%);
-        -webkit-box-shadow: 0 0 0px #fff;
+            &::after {
+                right: -3rem;
+                bottom: 1rem;
+                content: "”";
+                font-family: "Special Elite", cursive;
+            }
+        }
+
+        table {
+            width: 100%;
+        }
+
+        img,
+        object,
+        video,
+        iframe {
+            max-width: 110%;
+        }
+
+        iframe {
+            min-width: 100%;
+        }
+
+        img {
+            position: relative;
+            left: 50%;
+            display: block;
+            height: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #555;
+            transform: translateX(-50%);
+        }
+
+        #donate_QR_Code {
+            margin-top: 30px;
+            box-shadow: none;
+        }
     }
 }

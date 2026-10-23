@@ -48,7 +48,7 @@ body {
     font-weight: 700 !important;
 }
 
-p, .excerpt, .behind, .meta, .post li {
+.excerpt, .behind, .meta {
     font-weight: 300;
 }
 
@@ -64,27 +64,7 @@ a, a:hover, a:focus {
     color: $theme;
 }
 
-p {
-    font-size: 18px;
-    line-height: 2em;
-    padding: 10px 0;
-    letter-spacing: .6px;
-    color: $para;
-}
-
-.post li {
-    font-size: 18px;
-    line-height: 2em;
-    letter-spacing: .5px;
-    color: color.adjust($para, $lightness: 10%);
-}
-
-ol>li {
-    list-style-type: decimal;
-}
-ul>li {
-    list-style-type: disc;
-}
+@include article.typography($para);
 
 ul.dropdown-content.open>li {
     list-style-type: none;
@@ -179,15 +159,9 @@ li {
     .standard, .archive, .archive-title, #disqus_thread {
         padding: 0 7%;
     }
-    p, .post li {
-        font-size: 16px;
-        line-height: 1.9em;
-    }
+    @include article.mobile-typography;
     .archive-title {
         font-size: 2.2em;
-    }
-    .post ul {
-        margin-left: -10px;
     }
 }
 
