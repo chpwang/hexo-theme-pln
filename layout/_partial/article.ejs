@@ -81,8 +81,42 @@
         /<table\b([^>]*)>([\s\S]*?)<\/table>/gi,
         '<div class="table-wrapper"><table$1>$2</table></div>'
       );
+
+      // Hexo server-side Highlight.js emits <pre><code class="hljs cpp">.
+      // Use the existing class rather than relying on client-side detection.
+      // Leave unlabeled blocks untouched; keep the original HTML inside <pre>.
+      const languageNames = {
+        cpp: 'C++', cxx: 'C++', 'c++': 'C++',
+        csharp: 'C#', cs: 'C#',
+        js: 'JavaScript', javascript: 'JavaScript',
+        ts: 'TypeScript', typescript: 'TypeScript',
+        md: 'Markdown', markdown: 'Markdown', scheme: 'scheme',
+        html: 'HTML', xml: 'XML', css: 'CSS', scss: 'SCSS',
+        json: 'JSON', yaml: 'YAML', sql: 'SQL',
+        py: 'Python', python: 'Python',
+        sh: 'Shell', shell: 'Shell', bash: 'Bash'
+      };
+      const contentWithCodeLabels = contentWithTableWrappers.replace(
+        /(<pre\b[^>]*>\s*<code\b([^>]*)>[\s\S]*?<\/code>\s*<\/pre>)/gi,
+        function (match, block, attributes) {
+          const classMatch = attributes.match(/(?:^|\s)class\s*=\s*(["'])(.*?)\1/i);
+          if (!classMatch) return block;
+
+          const classes = classMatch[2].split(/\s+/);
+          const rawLanguage = classes
+            .filter(function (name) { return name !== 'hljs'; })
+            .map(function (name) { return name.replace(/^language-/, ''); })
+            .find(function (name) { return /^[a-z][a-z0-9_+#.-]{0,31}$/i.test(name); });
+
+          if (!rawLanguage) return block;
+          const key = rawLanguage.toLowerCase();
+          const label = languageNames[key] || key[0].toUpperCase() + key.slice(1);
+          // Only safe, whitelisted characters can reach this HTML attribute.
+          return '<div class="code-block" data-code-language="' + label + '">' + block + '</div>';
+        }
+      );
     %>
-    <%- contentWithTableWrappers %>
+    <%- contentWithCodeLabels %>
 
   </article>
 <% } %>

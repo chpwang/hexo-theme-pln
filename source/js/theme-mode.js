@@ -54,50 +54,58 @@
         button.setAttribute("title", label);
     }
 
-    function mountToggle() {
+    function updateAllToggles() {
+        document.querySelectorAll("#theme-toggle > a, .post-theme-toggle")
+            .forEach(updateToggle);
+    }
+
+    function toggleTheme(event) {
+        event.preventDefault();
+
+        var next = effectiveTheme() === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        setStoredTheme(next);
+        updateAllToggles();
+    }
+
+    function mountToggles() {
         var navbarRight = document.querySelector(".navbar-right");
-        if (!navbarRight || document.getElementById("theme-toggle")) {
-            return;
+        if (navbarRight && !document.getElementById("theme-toggle")) {
+            var item = document.createElement("li");
+            item.id = "theme-toggle";
+            item.className = "theme-toggle";
+
+            var button = document.createElement("a");
+            button.href = "#";
+            button.setAttribute("role", "button");
+
+            var icon = document.createElement("i");
+            icon.setAttribute("aria-hidden", "true");
+
+            button.appendChild(icon);
+            item.appendChild(button);
+            navbarRight.insertBefore(item, navbarRight.firstChild);
         }
 
-        var item = document.createElement("li");
-        item.id = "theme-toggle";
-        item.className = "theme-toggle";
-
-        var button = document.createElement("a");
-        button.href = "#";
-        button.setAttribute("role", "button");
-
-        var icon = document.createElement("i");
-        icon.setAttribute("aria-hidden", "true");
-
-        button.appendChild(icon);
-        item.appendChild(button);
-        navbarRight.insertBefore(item, navbarRight.firstChild);
-
-        updateToggle(button);
-
-        button.addEventListener("click", function (event) {
-            event.preventDefault();
-
-            var next = effectiveTheme() === "dark" ? "light" : "dark";
-            root.setAttribute("data-theme", next);
-            setStoredTheme(next);
-            updateToggle(button);
-        });
+        // Both controls share a single source of truth and storage key.
+        document.querySelectorAll("#theme-toggle > a, .post-theme-toggle")
+            .forEach(function (button) {
+                updateToggle(button);
+                button.addEventListener("click", toggleTheme);
+            });
     }
 
     applyInitialTheme();
 
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", mountToggle);
+        document.addEventListener("DOMContentLoaded", mountToggles);
     } else {
-        mountToggle();
+        mountToggles();
     }
 
     var onSystemThemeChange = function () {
         if (!getStoredTheme()) {
-            updateToggle(document.querySelector("#theme-toggle > a"));
+            updateAllToggles();
         }
     };
 

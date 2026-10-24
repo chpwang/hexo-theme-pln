@@ -39,11 +39,17 @@
     --nav-hover: #333;
 
     --border: #deddd7;
-    --blockquote-text: #6e4832;
+    --blockquote-text: #865039;
     --blockquote-mark: #e6e1d5;
 
     --inline-code-background: #ecebe6;
     --inline-code-text: #44484f;
+
+    // Fenced code uses a dark editor palette in either site theme.
+    --code-background: #1e1e1e;
+    --code-foreground: #dcdcdc;
+    --code-label: #a3a8b0;
+    --code-shadow: 0 2px 10px rgb(0 0 0 / 14%);
 
     --input-background: #f4f3ee;
     --input-shadow: #aaa;
@@ -57,74 +63,85 @@
 [data-theme="dark"] {
     color-scheme: dark;
 
-    --background: #181a1f;
-    --surface: #202329;
-    --surface-muted: #272b32;
+    // Soft charcoal/slate inspired by Sublime Text's dark editor palettes.
+    --background: #2d3137;
+    --surface: #343940;
+    --surface-muted: #3b4149;
 
-    --text-heading: #eef0f3;
-    --text-body: #c9cdd4;
-    --text-secondary: #adb2bb;
-    --text-muted: #858b95;
+    --text-heading: #f0f0f1;
+    --text-body: #d2d5d9;
+    --text-secondary: #b9bec5;
+    --text-muted: #9ba2ac;
 
-    --theme: #69aee6;
-    --theme-hover: #3f88c5;
-    --theme-contrast: #f4f7fb;
-    --selection: #315d7c;
+    --theme: #89bce5;
+    --theme-hover: #a0c9eb;
+    --theme-contrast: #20272d;
+    --selection: #456b87;
 
-    --nav-text: #b8bec7;
-    --nav-hover: #f0f2f5;
+    --nav-text: #c0c5cc;
+    --nav-hover: #f4f4f5;
 
-    --border: #353a43;
-    --blockquote-text: #c9ad94;
-    --blockquote-mark: #343840;
+    --border: #4a505a;
+    --blockquote-text: #d7b8a1;
+    --blockquote-mark: #555c65;
 
-    --inline-code-background: #24272e;
-    --inline-code-text: #d9dde4;
+    --inline-code-background: #3b4149;
+    --inline-code-text: #e0e2e5;
 
-    --input-background: #202329;
-    --input-shadow: #414753;
+    --code-background: #1e232a;
+    --code-foreground: #e0e2e5;
+    --code-label: #828c98;
+    --code-shadow: 0 2px 10px rgb(0 0 0 / 22%);
 
-    --image-shadow: rgb(0 0 0 / 48%);
-    --pager-text: #d6d9de;
-    --search-result-text: #e2e5ea;
-    --busuanzi-text: #737a84;
+    --input-background: #343940;
+    --input-shadow: #5b626c;
+
+    --image-shadow: rgb(0 0 0 / 30%);
+    --pager-text: #e0e2e5;
+    --search-result-text: #edf0f4;
+    --busuanzi-text: #a2a9b3;
 }
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
         color-scheme: dark;
 
-        --background: #181a1f;
-        --surface: #202329;
-        --surface-muted: #272b32;
+        --background: #2d3137;
+        --surface: #343940;
+        --surface-muted: #3b4149;
 
-        --text-heading: #eef0f3;
-        --text-body: #c9cdd4;
-        --text-secondary: #adb2bb;
-        --text-muted: #858b95;
+        --text-heading: #f0f0f1;
+        --text-body: #d2d5d9;
+        --text-secondary: #b9bec5;
+        --text-muted: #9ba2ac;
 
-        --theme: #69aee6;
-        --theme-hover: #3f88c5;
-        --theme-contrast: #f4f7fb;
-        --selection: #315d7c;
+        --theme: #89bce5;
+        --theme-hover: #a0c9eb;
+        --theme-contrast: #20272d;
+        --selection: #456b87;
 
-        --nav-text: #b8bec7;
-        --nav-hover: #f0f2f5;
+        --nav-text: #c0c5cc;
+        --nav-hover: #f4f4f5;
 
-        --border: #353a43;
-        --blockquote-text: #c9ad94;
-        --blockquote-mark: #343840;
+        --border: #4a505a;
+        --blockquote-text: #d7b8a1;
+        --blockquote-mark: #555c65;
 
-        --inline-code-background: #24272e;
-        --inline-code-text: #d9dde4;
+        --inline-code-background: #3b4149;
+        --inline-code-text: #e0e2e5;
 
-        --input-background: #202329;
-        --input-shadow: #414753;
+        --code-background: #1e232a;
+        --code-foreground: #e0e2e5;
+        --code-label: #828c98;
+        --code-shadow: 0 2px 10px rgb(0 0 0 / 22%);
 
-        --image-shadow: rgb(0 0 0 / 48%);
-        --pager-text: #d6d9de;
-        --search-result-text: #e2e5ea;
-        --busuanzi-text: #737a84;
+        --input-background: #343940;
+        --input-shadow: #5b626c;
+
+        --image-shadow: rgb(0 0 0 / 30%);
+        --pager-text: #e0e2e5;
+        --search-result-text: #edf0f4;
+        --busuanzi-text: #a2a9b3;
     }
 }
 
@@ -229,6 +246,71 @@ li {
     left: 5%;
 }
 
+// Post-only theme switch: sit in the RIGHT article gutter, just like the
+// back-to-top arrow. On wide screens the article's right edge is at
+// 100vw - page-gutter (+ toc-drawer-shift when TOC is open).
+// Center the switch in the *remaining* gutter, not in the TOC drawer.
+$post-toggle-size: 32px;
+
+.post-theme-toggle {
+    position: fixed;
+    z-index: 1105;
+    top: 15px;
+    right: calc((var(--page-gutter) - #{$post-toggle-size}) / 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $post-toggle-size;
+    height: $post-toggle-size;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--nav-text);
+    font-size: 21px;
+    cursor: pointer;
+    transition: color 120ms ease, right 180ms ease;
+
+    &:hover,
+    &:focus-visible {
+        color: var(--nav-hover);
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: 1px solid var(--theme);
+        outline-offset: 3px;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    // Closed right gutter: page-gutter. Open right gutter:
+    // page-gutter - toc-drawer-shift. The article width never changes.
+    body.toc-open .post-theme-toggle {
+        right: calc((var(--page-gutter) - var(--toc-drawer-shift) - #{$post-toggle-size}) / 2);
+    }
+}
+
+// The article stays full-width when TOC opens. At the narrow end of the
+// tablet range its remaining right gutter can be as small as ~17px. Shrink
+// the whole control to fit that actual space, while preserving the SAME
+// gutter centerline as the back-to-top arrow.
+@media screen and (min-width: 769px) and (max-width: 930px) {
+    body.toc-open .post-theme-toggle {
+        --post-toggle-compact-size: clamp(
+            12px,
+            calc(var(--page-gutter) - var(--toc-drawer-shift) - 4px),
+            24px
+        );
+
+        top: 7px;
+        right: calc((var(--page-gutter) - var(--toc-drawer-shift) - var(--post-toggle-compact-size)) / 2);
+        width: var(--post-toggle-compact-size);
+        height: var(--post-toggle-compact-size);
+        font-size: clamp(10px, calc(var(--page-gutter) - var(--toc-drawer-shift) - 6px), 16px);
+    }
+}
+
 .center,
 .behind,
 .archive-title,
@@ -296,6 +378,26 @@ li {
     .back,
     .busuanzi {
         display: none;
+    }
+
+    // Match the back-to-top arrow's CENTER in the 7vw right gutter.
+    // The old right: 5% anchored the button's outer edge there and pushed
+    // most of the 32px control into the article at phone widths.
+    .post-theme-toggle {
+        top: 18px;
+        // Track the exact centerline of the 20px back-to-top control,
+        // including its 2px minimum offset on very narrow phones.
+        right: calc(max(2px, calc((var(--page-gutter) - 20px) / 2)) + 1px);
+        width: 18px;
+        height: 18px;
+        font-size: 14px;
+    }
+
+    // The phone TOC is modal and already has a close button in this corner.
+    // Hide the separate theme switch until the drawer is closed.
+    body.toc-open .post-theme-toggle {
+        visibility: hidden;
+        pointer-events: none;
     }
 
     .behind {

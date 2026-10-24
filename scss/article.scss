@@ -83,9 +83,15 @@
 
         blockquote {
             position: relative;
+            box-sizing: border-box;
+            width: 100%;
             max-width: 720px;
             margin: 30px auto;
+            // Reserve room for the quotation marks *inside* the content box.
+            // The original negative side offsets painted outside the article.
+            padding: 10px clamp(36px, 5vw, 44px);
             border: 0;
+            overflow-wrap: anywhere;
             font-family: "PingFang SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
             font-size: 2rem;
             font-weight: 100;
@@ -100,24 +106,38 @@
                 font-style: italic;
             }
 
+            // Some legacy posts wrap the entire quotation in backticks.
+            // Inherit the quote color instead of the normal inline-code color,
+            // and let long code-like text wrap on small screens.
+            code {
+                white-space: normal;
+                overflow-wrap: anywhere;
+            }
+
+            p > code:only-child {
+                padding: 0;
+                background: transparent;
+                color: inherit;
+            }
+
             &::before,
             &::after {
                 position: absolute;
                 width: 4rem;
                 height: 4rem;
                 color: var(--blockquote-mark);
-                font-size: 8rem;
+                font-size: clamp(5rem, 7vw, 8rem);
             }
 
             &::before {
                 top: -2rem;
-                left: -3rem;
+                left: 0;
                 content: "“";
                 font-family: "Special Elite", cursive;
             }
 
             &::after {
-                right: -3rem;
+                right: 0;
                 bottom: 1rem;
                 content: "”";
                 font-family: "Special Elite", cursive;
@@ -252,11 +272,13 @@
             }
         }
 
+        // Keep embedded media inside the width of its own content box.
+        // This also respects the smaller content box of a Markdown <li>.
         img,
         object,
         video,
         iframe {
-            max-width: 110%;
+            max-width: 100%;
         }
 
         iframe {
@@ -264,15 +286,44 @@
         }
 
         img {
-            position: relative;
-            left: 50%;
             display: block;
             height: auto;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin: 20px auto;
             border-radius: 10px;
             box-shadow: 0 0 10px var(--image-shadow);
-            transform: translateX(-50%);
+        }
+
+        // Markdown ![alt](file.png) normally becomes <p><img></p>, whereas
+        // Hexo {% asset_img %} emits <img> directly. Remove the wrapper's
+        // extra paragraph spacing so both share the same image margins.
+        &.post p:has(> img:only-child),
+        &.post p:has(> a:only-child > img:only-child) {
+            margin: 0;
+            padding: 0;
+        }
+
+        // A Markdown image immediately after prose can render as
+        // <p>text<br><img></p> rather than a stand-alone image paragraph.
+        // Its enclosing paragraph still has the normal 10px bottom padding
+        // and 10px bottom margin, unlike a direct {% asset_img %} sibling.
+        // Reconcile both vertical gaps without changing other paragraphs,
+        // standalone images, or images within Markdown lists.
+        &.post > p:has(> br + img:last-child) {
+            padding-bottom: 0;
+            margin-bottom: 0;
+
+            > img:last-child {
+                // Mirror the 10px bottom padding of the preceding prose <p>
+                // that a direct {% asset_img %} would follow.
+                margin-top: 30px;
+            }
+        }
+
+        // Keep list images aligned with the list text, not the article center.
+        // Handles both <li><img> and <li><p><img></p></li> output.
+        &.post li img {
+            margin-left: 0;
+            margin-right: 0;
         }
 
         #donate_QR_Code {

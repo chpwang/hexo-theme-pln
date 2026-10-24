@@ -2,8 +2,8 @@
 // Syntax colors are provided by /css/highlight/styles/vs2015.css.
 // Fenced code blocks intentionally stay dark in both site themes.
 
-$highlight-background: #1e1e1e;
-$highlight-foreground: #dcdcdc;
+$highlight-background: var(--code-background);
+$highlight-foreground: var(--code-foreground);
 $highlight-comment: #999999;
 
 $font-mono:
@@ -15,6 +15,14 @@ $font-mono:
     "Liberation Mono",
     monospace;
 $font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-label:
+    "JetBrains Mono",
+    "SFMono-Regular",
+    "SF Mono",
+    Menlo,
+    "Cascadia Code",
+    Consolas,
+    monospace;
 
 $font-size-code: 16px;
 $line-height-code: 1.6;
@@ -51,8 +59,9 @@ article {
         overflow-x: auto;
         overflow-y: hidden;
         border: 0;
-        border-radius: 2px;
+        border-radius: 4px;
         background: $highlight-background;
+        box-shadow: var(--code-shadow);
         color: $highlight-foreground;
         font-size: $font-size-code;
         line-height: $line-height-code;
@@ -75,6 +84,49 @@ article {
             overflow: visible;
             padding: 0;
             background: transparent;
+        }
+    }
+
+    // Language metadata is deliberately hidden at rest and appears only when
+    // a mouse hovers a fenced block. Place it just ABOVE the top-right corner
+    // instead of over the scrollable code, so neither long lines nor the
+    // first source line can be obscured. No permanent empty header.
+    .code-block {
+        position: relative;
+        margin: 2ex 0;
+
+        > pre {
+            margin: 0;
+        }
+
+        &::before {
+            position: absolute;
+            z-index: 1;
+            right: 0.65rem;
+            bottom: calc(100% + 3px);
+            color: var(--code-label);
+            content: attr(data-code-language);
+            font-family: $font-label;
+            font-size: 11px;
+            font-weight: 400;
+            font-variant-ligatures: none;
+            line-height: 1;
+            letter-spacing: -0.015em;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 150ms ease;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover::before {
+                opacity: 1;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            &::before {
+                transition: none;
+            }
         }
     }
 

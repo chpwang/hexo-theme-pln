@@ -75,6 +75,23 @@
     }
 }
 
+// At very narrow tablet widths the open TOC leaves less than 28px of
+// right gutter. Reduce the arrow's box rather than clamping its position
+// independently; both controls then stay centered and clear of the article.
+@media screen and (min-width: 769px) and (max-width: 930px) {
+    body.toc-open .right-foot {
+        --right-foot-compact-size: clamp(
+            12px,
+            calc(var(--page-gutter) - var(--toc-drawer-shift) - 4px),
+            28px
+        );
+
+        right: calc((var(--page-gutter) - var(--toc-drawer-shift) - var(--right-foot-compact-size)) / 2);
+        width: var(--right-foot-compact-size) !important;
+        font-size: clamp(10px, calc(var(--page-gutter) - var(--toc-drawer-shift) - 6px), 18px) !important;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .right-foot {
         right: max(2px, calc((7vw - 20px) / 2));
