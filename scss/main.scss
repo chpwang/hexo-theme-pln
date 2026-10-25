@@ -8,8 +8,9 @@
 @use "highlight";
 @use "animation";
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Pacifico);
-@import url('https://fonts.googleapis.com/css?family=Special+Elite');
+// Preserve existing typography with a single font stylesheet request.
+// `display=swap` lets text render while web fonts are being downloaded.
+@import url("https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Pacifico|Special+Elite&display=swap");
 
 :root {
     color-scheme: light;
