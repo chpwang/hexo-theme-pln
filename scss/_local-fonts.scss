@@ -1,0 +1,28 @@
+// PLN locally hosted web fonts. Run tools/install-local-fonts.sh once to
+// populate /source/fonts/ before compiling/deploying the site.
+// Browser font requests resolve to https://cps.ninja/fonts/...
+// No third-party font stylesheet or font file is requested at runtime.
+
+@font-face {
+    font-family: "Open Sans Condensed";
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url("/fonts/open-sans-condensed-latin-300-normal.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Open Sans Condensed";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/open-sans-condensed-latin-700-normal.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Special Elite";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/special-elite-latin-400-normal.woff2") format("woff2");
+}
