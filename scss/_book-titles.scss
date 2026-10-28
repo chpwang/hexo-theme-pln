@@ -1,0 +1,60 @@
+// Literary typography for Markdown emphasis (normally used for book titles).
+// Latin: a REAL italic design, self-hosted EB Garamond Medium Italic.
+// Chinese: upright printed Song/Ming faces for stable book-title typography.
+// Japanese: Mincho; explicitly tag Japanese titles with lang="ja" to avoid
+// mixing Chinese Han glyphs with Japanese kana within the same book title.
+//
+// The webfont is added once by tools/install-book-title-font.sh.
+// We intentionally register the italic outlines as a dedicated normal-style
+// font family so CJK fallbacks are not forcibly slanted by `font-style: italic`.
+@font-face {
+    font-family: "PLN Book Italic";
+    src: url("/fonts/eb-garamond-latin-500-italic.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    // The locally installed file is Fontsource's Latin subset only.
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC,
+        U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F,
+        U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@mixin styles {
+    // Marked renders *title* and _title_ as <em>. Keep this scoped to
+    // article content so theme controls and code highlighting stay intact.
+    article.post :where(p, li, blockquote, h1, h2, h3, h4, h5, h6, td, th) em {
+        font-family:
+            "PLN Book Italic",
+            "Songti SC", "STSong", "Noto Serif CJK SC",
+            "Source Han Serif SC", "SimSun",
+            "Hiragino Mincho ProN", "Yu Mincho", "YuMincho",
+            "Noto Serif CJK JP", serif;
+        font-size: 1.075em;
+        font-style: normal;  // EB Garamond file is already italic; CJK stays upright.
+        font-weight: 400;
+        letter-spacing: 0.025em;
+        color: var(--text-heading);
+        font-synthesis: none;
+    }
+
+    // Shared Han characters cannot tell CSS whether the text is Chinese or
+    // Japanese. Mark Japanese spans with lang="ja" to use a consistent JP font,
+    // including Kanji as well as Kana. Unmarked spans default to Chinese Song.
+    article.post :where(p, li, blockquote, h1, h2, h3, h4, h5, h6, td, th) em:lang(ja),
+    article.post :where(p, li, blockquote, h1, h2, h3, h4, h5, h6, td, th) em :lang(ja) {
+        font-family:
+            "PLN Book Italic",
+            "Hiragino Mincho ProN", "Yu Mincho", "YuMincho",
+            "Noto Serif CJK JP", "Noto Serif JP", serif;
+    }
+
+    // Optional: Traditional Chinese book names can request TC glyph variants.
+    // Mark the containing <em> or an inner <span lang="zh-Hant">...</span>.
+    article.post :where(p, li, blockquote, h1, h2, h3, h4, h5, h6, td, th) em:lang(zh-Hant),
+    article.post :where(p, li, blockquote, h1, h2, h3, h4, h5, h6, td, th) em :lang(zh-Hant) {
+        font-family:
+            "PLN Book Italic",
+            "Songti TC", "Noto Serif CJK TC", "Source Han Serif TC",
+            "PMingLiU", "Songti SC", "SimSun", serif;
+    }
+}

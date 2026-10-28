@@ -2,6 +2,7 @@
 @use "search";
 @use "posts";
 @use "article";
+@use "book-titles";
 @use "toc";
 @use "pager";
 @use "footer";
@@ -367,6 +368,7 @@ $post-toggle-size: 32px;
 }
 
 @include article.styles;
+@include book-titles.styles;
 
 .busuanzi {
     margin: 30px 0;
