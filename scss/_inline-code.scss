@@ -1,0 +1,60 @@
+// Inline code only. Do not touch <pre><code> / fenced syntax highlighting.
+// A restrained "technical ink" treatment: slightly cool neutral surface,
+// fine border and readable monospace; distinct but not a bright pill.
+// One rule set for both themes; only 3 semantic color tokens change.
+@mixin styles {
+    article.standard.post {
+        // Light mode: warm paper background with a subtle slate-blue code chip.
+        --pln-inline-code-background: #e9edf0;
+        --pln-inline-code-foreground: #3b5363;
+        --pln-inline-code-border: #cdd7df;
+
+        // Matches Markdown `code` in paragraphs, tables, list items and
+        // headings. The direct-parent restriction excludes fenced <pre><code>.
+        :not(pre) > code {
+            padding: 0.10em 0.30em;
+            border: 1px solid var(--pln-inline-code-border);
+            border-radius: 0.26em;
+            background: var(--pln-inline-code-background);
+            color: var(--pln-inline-code-foreground);
+            font-size: 0.92em;
+            font-weight: 500;
+            line-height: inherit;
+            letter-spacing: 0;
+            text-shadow: none;
+            font-variant-ligatures: none;
+            overflow-wrap: anywhere;
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
+        }
+
+        // Preserve the existing exception for legacy blockquotes that
+        // contain a single code element standing for the entire quote.
+        blockquote p > code:only-child {
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            letter-spacing: inherit;
+        }
+    }
+
+    // Manual dark mode: same layout, adjusted ink / fill / outline.
+    [data-theme="dark"] article.standard.post {
+        --pln-inline-code-background: #44515d;
+        --pln-inline-code-foreground: #e7edf4;
+        --pln-inline-code-border: #657483;
+    }
+
+    // Automatic dark mode when no manual theme preference is set.
+    @media (prefers-color-scheme: dark) {
+        :root:not([data-theme]) article.standard.post {
+            --pln-inline-code-background: #44515d;
+            --pln-inline-code-foreground: #e7edf4;
+            --pln-inline-code-border: #657483;
+        }
+    }
+}

@@ -9,6 +9,7 @@
 @use "highlight";
 @use "animation";
 @use "local-fonts";
+@use "inline-code";
 
 // Preserve existing typography with a single font stylesheet request.
 // `display=swap` lets text render while web fonts are being downloaded.
@@ -368,6 +369,7 @@ $post-toggle-size: 32px;
 }
 
 @include article.styles;
+@include inline-code.styles;
 @include book-titles.styles;
 
 .busuanzi {
