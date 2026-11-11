@@ -2,6 +2,7 @@
 @use "search";
 @use "posts";
 @use "article";
+@use "plain-quotes";
 @use "book-titles";
 @use "toc";
 @use "pager";
@@ -369,6 +370,7 @@ $post-toggle-size: 32px;
 }
 
 @include article.styles;
+@include plain-quotes.styles;
 @include inline-code.styles;
 @include book-titles.styles;
 

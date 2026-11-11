@@ -28,18 +28,10 @@
             box-decoration-break: clone;
         }
 
-        // Preserve the existing exception for legacy blockquotes that
-        // contain a single code element standing for the entire quote.
-        blockquote p > code:only-child {
-            padding: 0;
-            border: 0;
-            border-radius: 0;
-            background: transparent;
-            color: inherit;
-            font-size: inherit;
-            font-weight: inherit;
-            letter-spacing: inherit;
-        }
+        // No `blockquote p > code:only-child` exception here. CSS :only-child
+        // ignores plain text nodes; `<p>prose <code>x</code></p>` also matches
+        // and would incorrectly lose the inline-code styling. Use the same
+        // code chip whether a quotation contains one or several code spans.
     }
 
     // Manual dark mode: same layout, adjusted ink / fill / outline.

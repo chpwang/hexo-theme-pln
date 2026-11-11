@@ -1,0 +1,88 @@
+// PLN plain Markdown blockquotes (`>`), complementary to attributed Hexo quotes.
+//
+// Hexo's {% blockquote Author %} renders a direct <footer> in the current blog.
+// Only footer-less blockquotes receive the classic Markdown left rule.
+// An unattributed {% blockquote %} is indistinguishable from `>` in HTML.
+//
+// Include this mixin AFTER article.styles so it can override PLN's existing
+// oversized quotation marks and blockquote paragraph typography.
+
+@mixin styles {
+    article.post blockquote:not(:has(> footer)) {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 720px; // Match the existing attributed quotation column.
+        margin: 22px auto;
+        padding: 2px 0 2px clamp(16px, 2vw, 21px);
+        border: 0;
+        // A soft neutral rule that nods to the attributed quote palette but
+        // reads as secondary information, not a decorative quotation mark.
+        border-left: 2px solid color-mix(in srgb, var(--border) 86%, var(--blockquote-text) 14%);
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+
+        // Keep the same smooth sans-serif family as attributed quotations,
+        // but give footer-less Markdown quotes a quieter visual hierarchy.
+        font-family: "PingFang SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 1.8;
+        letter-spacing: 0.45px;
+        color: color-mix(in srgb, var(--text-secondary) 88%, var(--blockquote-text) 12%);
+        text-align: left;
+        overflow-wrap: anywhere;
+
+        // Only attributed quotes keep PLN's two large ornamental quote marks.
+        &::before,
+        &::after {
+            content: none;
+            display: none;
+        }
+
+        > p {
+            margin: 0;
+            padding: 0;
+            color: inherit;
+            font-size: 1em;
+            font-weight: inherit;
+            line-height: inherit;
+            letter-spacing: inherit;
+        }
+
+        > p + p {
+            margin-top: 0.72em;
+        }
+
+        // Markdown permits lists inside blockquotes. Keep their text color
+        // aligned with the quote rather than the usual .post li color.
+        > ul,
+        > ol {
+            margin: 0.5em 0;
+            padding-left: 1.3em;
+        }
+
+        > ul li,
+        > ol li {
+            color: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            letter-spacing: inherit;
+        }
+
+        // Existing PLN rules italicize <strong> within all quotations.
+        // Plain Markdown should preserve normal **bold** semantics instead.
+        strong {
+            font-style: normal;
+        }
+
+        @media screen and (max-width: 768px) {
+            margin: 20px auto;
+            padding-left: 15px;
+            border-left-width: 2px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+    }
+}
