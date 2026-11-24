@@ -59,6 +59,32 @@ html {
         }
     }
 }
+// PLN TOC Scrollspy v1: begin
+.post-toc {
+    .toc-link {
+        position: relative;
+    }
+
+    // V2, option A: 20-30% more visible; still no background or bold text.
+    // Keep PLN's quiet hierarchy and work in both Light / Dark modes.
+    .toc-link.toc-current {
+        color: color-mix(in srgb, var(--text-secondary) 42%, var(--theme) 58%);
+
+        &::before {
+            position: absolute;
+            top: 50%;
+            left: -9px;
+            width: 2.5px;
+            height: 1.38em;
+            border-radius: 99px;
+            background: color-mix(in srgb, var(--theme) 83%, var(--border) 17%);
+            content: "";
+            transform: translateY(-50%);
+        }
+    }
+}
+// PLN TOC Scrollspy v1: end
+
 
 .post-toc-title {
     color: var(--text-heading);
